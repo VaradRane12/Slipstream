@@ -3,6 +3,7 @@ import { getStints } from '../../api/f1'
 import useFetch from '../../hooks/useFetch'
 import { TYRE_COLORS } from '../../utils/constants'
 import { teamColor } from '../../utils/format'
+import { mergeStints } from '../../utils/race'
 import ErrorMessage from '../ErrorMessage'
 import Skeleton from '../Skeleton'
 
@@ -60,9 +61,9 @@ export default function StrategyTab({ sessionKey, drivers, results }) {
         </div>
 
         {drivers.map((driver) => {
-          const driverStints = stints
-            .filter((s) => s.driver_number === driver.driver_number && s.lap_end)
-            .sort((a, b) => a.stint_number - b.stint_number)
+          const driverStints = mergeStints(
+            stints.filter((s) => s.driver_number === driver.driver_number && s.lap_end),
+          )
           const stops = Math.max(0, driverStints.length - 1)
 
           return (

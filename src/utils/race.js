@@ -75,6 +75,29 @@ export function buildLineStyles(drivers) {
   return styles
 }
 
+// ---------- Tyre strategy ----------
+
+// OpenF1 sometimes starts a new "stint" without a tyre change, e.g. when the whole field
+// drives through the pit lane behind the safety car. So we join back-to-back stints on
+// the same compound into one. (Trade-off: a stop for a fresh set of the *same* compound
+// gets joined too, because the data doesn't reliably tell the two cases apart.)
+// Also, a stint often starts on the lap the previous one ended; we start it one lap later
+// so the bars don't overlap.
+export function mergeStints(stints) {
+  const sorted = [...stints].sort((a, b) => a.stint_number - b.stint_number)
+  const merged = []
+  for (const stint of sorted) {
+    const previous = merged[merged.length - 1]
+    if (previous && previous.compound === stint.compound) {
+      previous.lap_end = Math.max(previous.lap_end, stint.lap_end)
+    } else {
+      const lapStart = previous ? Math.max(stint.lap_start, previous.lap_end + 1) : stint.lap_start
+      merged.push({ ...stint, lap_start: lapStart, stint_number: merged.length + 1 })
+    }
+  }
+  return merged.filter((s) => s.lap_end >= s.lap_start)
+}
+
 // ---------- Positions chart ----------
 
 // Works out every driver's position at the end of every lap.

@@ -4,6 +4,18 @@ An interactive Formula 1 data explorer built with **React**. Pick any session si
 qualifying, sprint or race) and replay it live, compare drivers' telemetry corner by corner, and dig into
 results, lap times and tyre strategies.
 
+**Live: [slipstream.varadr.site](https://slipstream.varadr.site)**
+
+![Live race replay](docs/screenshots/replay.png)
+
+## Screenshots
+
+| Telemetry comparison | Position changes |
+|---|---|
+| ![Telemetry: two laps compared by speed, throttle, brake, gear and RPM, with a track map](docs/screenshots/telemetry.png) | ![Position chart with two drivers highlighted](docs/screenshots/positions.png) |
+| **Tyre strategy** | **Home & race calendar** |
+| ![Tyre strategy timeline for every driver](docs/screenshots/strategy.png) | ![Home page with next race countdown and calendar](docs/screenshots/home.png) |
+
 ## Features
 
 - **Race calendar** for every season since 2023, with search, a season picker and a live countdown to the next race
