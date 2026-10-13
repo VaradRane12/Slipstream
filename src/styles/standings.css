@@ -1,0 +1,73 @@
+/* ---------- Standings page ---------- */
+.standings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.standings__row {
+  display: grid;
+  grid-template-columns: 40px 1fr auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--team-color);
+  /* each row slides in a little after the one above it */
+  animation: slide-in 0.35s ease both;
+  animation-delay: var(--delay);
+}
+.standings__pos {
+  font-size: 1.4rem;
+  font-weight: 900;
+  text-align: center;
+}
+.standings__row:nth-child(1) .standings__pos {
+  color: var(--accent);
+}
+.standings__names {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.standings__bar {
+  height: 6px;
+  margin-top: 8px;
+  border-radius: 3px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.standings__bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--team-color);
+  transition: width 0.6s ease;
+}
+.standings__wins {
+  font-size: 0.875rem;
+}
+.standings__points {
+  min-width: 64px;
+  text-align: right;
+  font-size: 1.3rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.standings__points small {
+  margin-left: 4px;
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .standings__row {
+    grid-template-columns: 28px 1fr auto;
+    gap: 10px;
+    padding: 12px;
+  }
+}

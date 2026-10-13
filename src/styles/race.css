@@ -1,0 +1,923 @@
+/* ---------- Race page ---------- */
+.back-link {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 600;
+}
+.back-link:hover {
+  color: var(--text);
+}
+.race-header {
+  margin-bottom: 28px;
+}
+
+/* ---------- Tabs ---------- */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  overflow-x: auto; /* scroll sideways on phones instead of wrapping */
+  scrollbar-width: none;
+}
+.tabs__tab {
+  flex-shrink: 0;
+  padding: 12px 16px;
+  border: none;
+  background: none;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+}
+.tabs__tab:hover {
+  color: var(--text);
+}
+.tabs__tab.is-active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+.tab-panel {
+  animation: slide-in 0.25s ease both;
+}
+.tab-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* ---------- Podium ---------- */
+.podium {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: end;
+  gap: 12px;
+  max-width: 640px;
+  margin: 0 auto 32px;
+}
+.podium__step {
+  display: grid;
+  justify-items: center;
+}
+.podium__photo {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  background: var(--surface-2);
+  border: 3px solid var(--team-color);
+  margin-bottom: -20px;
+  position: relative;
+  z-index: 1;
+}
+.podium__photo--empty {
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+}
+.podium__block {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  padding: 28px 8px 16px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--team-color) 30%, var(--surface)), var(--surface));
+  border: 1px solid var(--border);
+  border-bottom: none;
+  text-align: center;
+}
+/* different heights make it look like a real podium */
+.podium__step--p1 .podium__block {
+  min-height: 170px;
+}
+.podium__step--p2 .podium__block {
+  min-height: 140px;
+}
+.podium__step--p3 .podium__block {
+  min-height: 115px;
+}
+.podium__position {
+  font-size: 1.8rem;
+  font-weight: 900;
+}
+.podium__name {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.podium__team {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ---------- Results table ---------- */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+.table th,
+.table td {
+  padding: 12px 16px;
+  text-align: left;
+}
+.table th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+.table tbody tr:hover {
+  background: var(--surface-2);
+}
+.table .num {
+  text-align: right;
+}
+.table__pos {
+  font-weight: 900;
+  width: 48px;
+}
+
+/* ---------- Driver chips ---------- */
+.driver-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.chip:hover {
+  border-color: var(--chip-color);
+}
+.chip--selected {
+  background: color-mix(in srgb, var(--chip-color) 22%, var(--surface));
+  border-color: var(--chip-color);
+}
+.chip__swatch {
+  width: 14px;
+  height: 0;
+  border-top: 3px solid var(--chip-color);
+}
+.chip__swatch--dashed {
+  border-top-style: dashed;
+}
+
+/* ---------- Charts ---------- */
+.chart-card {
+  padding: 16px 8px 8px 0;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+/* Recharts draws SVG, so we colour its axes and grid with CSS variables here */
+.chart-card .recharts-cartesian-axis-tick-value {
+  fill: var(--muted);
+}
+.chart-card .recharts-cartesian-grid line {
+  stroke: var(--border);
+}
+.chart-card .recharts-cartesian-axis-line {
+  stroke: var(--border);
+}
+
+.chart-tooltip {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  font-size: 0.8rem;
+}
+.chart-tooltip__title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.chart-tooltip ol,
+.chart-tooltip ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chart-tooltip__grid {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  column-gap: 16px;
+  row-gap: 2px;
+}
+.chart-tooltip__list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chart-tooltip__list .mono {
+  margin-left: auto;
+  padding-left: 12px;
+}
+.chart-tooltip .is-highlighted {
+  font-weight: 700;
+  color: var(--accent);
+}
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.toggle input {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------- Lap time stat cards ---------- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.stat-card {
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--team-color);
+}
+.stat-card__name {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.stat-card dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 0;
+}
+.stat-card dt {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.stat-card dd {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* ---------- Tyre strategy ---------- */
+.tyre-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+.tyre-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: -1px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+.stint-info {
+  min-height: 44px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  font-size: 0.9rem;
+}
+
+.strategy {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+}
+.strategy__row {
+  display: grid;
+  grid-template-columns: 64px 1fr 64px;
+  align-items: center;
+  gap: 12px;
+  min-width: 560px;
+}
+/* The lap numbers line up with the middle column:
+   76px = driver column (64px) + gap (12px) on each side. */
+.strategy__axis {
+  position: relative;
+  height: 18px;
+  margin: 0 76px;
+  min-width: 408px;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.strategy__axis span {
+  position: absolute;
+  transform: translateX(-50%);
+}
+.strategy__driver {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.strategy__track {
+  position: relative;
+  height: 26px;
+  border-radius: 6px;
+  background: var(--surface-2);
+}
+.stint {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border: none;
+  border-right: 2px solid var(--surface);
+  border-radius: 6px;
+  background: var(--tyre-color);
+  color: #15151e;
+  font-size: 0.7rem;
+  font-weight: 900;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.15s, filter 0.15s;
+}
+.stint:hover,
+.stint:focus-visible {
+  transform: scaleY(1.25);
+  filter: brightness(1.1);
+  z-index: 1;
+}
+.strategy__stops {
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .podium__photo {
+    width: 64px;
+    height: 64px;
+  }
+  .podium__name {
+    font-size: 0.9rem;
+  }
+  .stat-card dl {
+    grid-template-columns: repeat(3, auto);
+  }
+}
+
+/* ---------- Weekend session switcher ---------- */
+.session-switcher {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.session-pill {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--muted);
+}
+.session-pill:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+.session-pill.is-active {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+.session-pill.is-disabled {
+  opacity: 0.4;
+}
+
+.live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1.5s infinite;
+}
+
+/* ---------- Track map (SVG) ---------- */
+.track-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+}
+.track-map__outline {
+  fill: none;
+  stroke: var(--surface-2);
+  stroke-width: 14;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.track-map__line {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+.track-map__segment {
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.track-map__start {
+  fill: var(--text);
+}
+.track-map__marker circle {
+  stroke: var(--bg);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.track-map__marker text {
+  fill: var(--text);
+  font-weight: 700;
+  /* outline around the letters so they stay readable on top of the track */
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+  vector-effect: non-scaling-stroke;
+}
+.track-map__marker.is-dimmed {
+  opacity: 0.35;
+}
+
+/* ---------- Telemetry ---------- */
+.lap-pickers {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.lap-pickers__vs {
+  font-weight: 900;
+  color: var(--muted);
+}
+.lap-picker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--picker-color);
+}
+.lap-picker__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.lap-picker select {
+  max-width: 220px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  font-weight: 600;
+}
+
+.telemetry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 16px;
+  align-items: start;
+}
+.telemetry__side {
+  position: sticky;
+  top: 80px; /* just below the sticky navbar */
+  display: grid;
+  gap: 12px;
+}
+
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.lap-summary {
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--team-color);
+}
+.lap-summary__name {
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.lap-summary dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 0;
+}
+.lap-summary dt {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.lap-summary dd {
+  margin: 0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.telemetry-charts {
+  padding: 8px 4px 4px 0;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.telemetry-chart {
+  position: relative;
+}
+.telemetry-chart + .telemetry-chart {
+  border-top: 1px solid var(--border);
+}
+.telemetry-chart__label {
+  position: absolute;
+  top: 4px;
+  left: 52px;
+  z-index: 1;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  pointer-events: none;
+}
+.telemetry-charts .recharts-cartesian-axis-tick-value {
+  fill: var(--muted);
+}
+.telemetry-charts .recharts-cartesian-grid line {
+  stroke: var(--border);
+}
+
+.map-card {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.map-card .segmented {
+  justify-self: start;
+}
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.map-legend--gradient {
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.speed-gradient {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, hsl(230 85% 55%), hsl(115 85% 55%), hsl(0 85% 55%));
+}
+
+.readout {
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.readout--empty {
+  text-align: center;
+}
+.readout__distance {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.readout table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.readout th,
+.readout td {
+  padding: 3px 4px;
+  text-align: left;
+}
+.readout thead th {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- Live replay ---------- */
+.replay {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 16px;
+  align-items: start;
+}
+.replay__map-card {
+  position: relative;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.replay__hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.replay__lap {
+  font-size: 1.6rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.replay__lap small {
+  font-size: 1rem;
+  color: var(--muted);
+}
+.track-status {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.track-status--green {
+  background: rgba(46, 204, 113, 0.15);
+  color: var(--success);
+}
+.track-status--sc,
+.track-status--vsc {
+  background: #fab005;
+  color: #15151e;
+  animation: pulse 1.2s infinite;
+}
+.track-status--red {
+  background: #e03131;
+  color: #fff;
+}
+.track-status--chequered {
+  color: #15151e;
+  background: repeating-conic-gradient(#fff 0 25%, #ddd 0 50%) 0 0 / 12px 12px;
+}
+.track-map--replay {
+  max-height: 560px;
+}
+
+.replay__controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+.play-button {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.play-button:hover {
+  filter: brightness(1.1);
+}
+.timeline {
+  flex: 1;
+  min-width: 160px;
+  height: 6px;
+  appearance: none;
+  border-radius: 3px;
+  /* red up to the current point, grey after: --progress is set from React */
+  background: linear-gradient(90deg, var(--accent) var(--progress), var(--surface-2) var(--progress));
+  cursor: pointer;
+}
+.timeline::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--text);
+}
+.timeline::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background: var(--text);
+}
+.replay__clock {
+  min-width: 64px;
+}
+.replay__hint {
+  margin-top: 8px;
+  font-size: 0.8rem;
+}
+
+.replay__side {
+  display: grid;
+  gap: 12px;
+}
+.leaderboard {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.leaderboard__row {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 34px;
+  /* the overtake animation: rows slide to their new place */
+  transition: transform 0.5s ease;
+}
+.leaderboard__row button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+.leaderboard__row button:hover {
+  background: var(--surface-2);
+}
+.leaderboard__row.is-focused button {
+  background: var(--accent-soft);
+}
+.leaderboard__row.is-out {
+  opacity: 0.4;
+}
+.leaderboard__pos {
+  width: 24px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.leaderboard__name {
+  font-weight: 700;
+  margin-right: auto;
+}
+.leaderboard__gap {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.tyre-badge {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  border-radius: 50%;
+  border: 3px solid var(--tyre-color);
+  font-size: 0.6rem;
+  font-weight: 900;
+}
+
+.race-control {
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+.race-control__title {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+.race-control ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.race-control li {
+  animation: slide-in 0.3s ease both;
+}
+.flag-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 2px;
+  background: var(--muted);
+}
+.flag-dot--yellow,
+.flag-dot--double-yellow,
+.flag-dot--safetycar {
+  background: #fab005;
+}
+.flag-dot--green,
+.flag-dot--clear {
+  background: var(--success);
+}
+.flag-dot--red {
+  background: #e03131;
+}
+.flag-dot--blue {
+  background: #3b5bdb;
+}
+.flag-dot--chequered {
+  background: repeating-conic-gradient(#fff 0 25%, #222 0 50%) 0 0 / 4px 4px;
+}
+
+@media (max-width: 960px) {
+  .telemetry,
+  .replay {
+    grid-template-columns: 1fr;
+  }
+  .telemetry__side {
+    position: static;
+    order: -1; /* show the map above the charts on small screens */
+  }
+}
+
+.table td .badge {
+  margin-left: 6px;
+}

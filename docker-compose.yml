@@ -1,0 +1,9 @@
+name: slipstream
+
+services:
+  slipstream:
+    build: .
+    container_name: slipstream
+    ports:
+      - "${PORT:-8080}:80" # open http://<server-ip>:8080 (change with PORT=...)
+    restart: unless-stopped
